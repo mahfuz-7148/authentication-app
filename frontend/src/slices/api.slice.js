@@ -3,7 +3,7 @@ import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
 const baseQuery = fetchBaseQuery({
   baseUrl: import.meta.env.VITE_API,
   credentials: 'include',
-  prepareHeaders: (headers) => {
+  prepareHeaders: headers => {
     if (!headers.has('Content-type')) {
       headers.set('Content-type', 'application/json')
     }
@@ -12,15 +12,16 @@ const baseQuery = fetchBaseQuery({
 })
 
 const baseQueryWithError = async (args, api, extraOptions) => {
- const result = await baseQuery(args, api, extraOptions)
+ const result = baseQuery(args, api, extraOptions)
   if (result?.error?.status === 401) {
     console.warn('unauthorized api')
   }
   return result
 }
+
 export const apiSlice = createApi({
   reducerPath: 'api',
- baseQuery: baseQueryWithError,
+  baseQuery: baseQueryWithError,
   tagTypes: ['User'],
-  endpoints: (builder) => ({})
+  endpoints: builder => ({})
 })

@@ -1,9 +1,9 @@
 import React, {useState} from 'react'
 import {Link, useNavigate} from 'react-router';
 import {FaBars, FaSignInAlt, FaSignOutAlt, FaTimes, FaUser} from 'react-icons/fa';
-import {useLogoutMutation} from '../slices/users.api.slice.js';
 import {useDispatch, useSelector} from 'react-redux';
 import {logout} from '../slices/auth.slice.js';
+import {useLogoutMutation} from '../slices/users.api.slice.js';
 
 export const Header = () => {
   const [isOpen, setIsOpen] = useState(false)
@@ -14,15 +14,15 @@ export const Header = () => {
   const {userInfo} = useSelector(state => state.auth)
 
   const logoutHandler = async () => {
-   try {
-     await logoutApi().unwrap()
-     dispatch(logout())
-     navigate('/login')
-     setDropdownOpen(false)
-   }
-   catch (err) {
-     console.error(err)
-   }
+    try {
+      await logoutApi().unwrap()
+      dispatch(logout())
+      navigate('/login')
+      setDropdownOpen(false)
+    }
+    catch (err) {
+      console.error(err)
+    }
   }
   return (
     <header className="bg-gray-900 text-white shadow-lg">
@@ -58,13 +58,13 @@ export const Header = () => {
 
                 {dropdownOpen && (
                   <>
-                      <div
-                        className="fixed inset-0 z-10"
-                        onClick={() => setDropdownOpen(false)}
-                      />
+                    <div
+                      className="fixed inset-0 z-10"
+                      onClick={() => setDropdownOpen(false)}
+                    />
                     <div className="absolute right-0 mt-2 w-48 bg-gray-800 rounded-lg shadow-xl z-20 py-2">
                       <Link
-                        to="/profile"
+                        to="/update-profile"
                         onClick={() => setDropdownOpen(false)}
                         className="block px-4 py-2 hover:bg-gray-700 transition-colors"
                       >
@@ -115,7 +115,7 @@ export const Header = () => {
             {userInfo ? (
               <>
                 <Link
-                  to="/profile"
+                  to="/update-profile"
                   onClick={() => setIsOpen(false)}
                   className="block px-4 py-2 rounded-lg hover:bg-gray-800 transition-colors"
                 >

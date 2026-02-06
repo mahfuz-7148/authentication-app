@@ -1,9 +1,9 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {FormContainer} from '../components/form.container.jsx';
 import {useRegisterMutation} from '../slices/users.api.slice.js';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {toast} from 'react-toastify';
-import {Link} from 'react-router';
+import {Link, useNavigate} from 'react-router';
 import {Loader} from '../components/loader.jsx';
 import {setCredentials} from '../slices/auth.slice.js';
 
@@ -12,11 +12,19 @@ export const Register = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
-  const [register, { isLoading }] = useRegisterMutation();
+  const [register, {isLoading}] = useRegisterMutation()
   const dispatch = useDispatch()
+  const navigate = useNavigate();
+  const { userInfo } = useSelector((state) => state.auth);
 
-  const submitHandler = async (e) => {
-   e.preventDefault()
+  useEffect(() => {
+    if (userInfo) {
+      navigate('/');
+    }
+  }, [navigate, userInfo]);
+
+  const submitHandler = async e => {
+    e.preventDefault()
     if (password !== confirmPassword) {
       toast.error('password dont match')
     }
@@ -24,14 +32,14 @@ export const Register = () => {
       try {
         const res = await register({name, email, password}).unwrap()
         dispatch(setCredentials({...res}))
-        toast.success('Registration successful!');
+        toast.success('registration successful')
+        navigate('/');
       }
       catch (err) {
         toast.error(err?.data?.message || err.error)
       }
     }
   }
-
   return (
     <FormContainer>
       <h1 className='text-3xl font-bold text-center mb-6 text-gray-800'>Register</h1>

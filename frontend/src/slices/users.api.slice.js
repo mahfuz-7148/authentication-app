@@ -1,47 +1,42 @@
 import {apiSlice} from './api.slice.js';
 
-const USERS_URL = '/api/users';
-
-export const userApiSlice = apiSlice.injectEndpoints({
-  endpoints: (builder) => ({
-    // register user
+const users_url = '/api/users'
+ const userApiSlice = apiSlice.injectEndpoints({
+  endpoints: builder => ({
     register: builder.mutation({
       query: data => ({
-        url: `${USERS_URL}/register`,
+        url: `${users_url}/register`,
         method: 'POST',
         body: data
       }),
       invalidatesTags: ['User']
     }),
-    // logout user
     logout: builder.mutation({
       query: () => ({
-        url: `${USERS_URL}/logout`,
-        method: 'POST',
+        url: `${users_url}/logout`,
+        method: 'POST'
       }),
       invalidatesTags: ['User']
     }),
-    // login user
     login: builder.mutation({
       query: data => ({
-        url: `${USERS_URL}/login`,
+        url: `${users_url}/login`,
         method: 'POST',
         body: data
       }),
       invalidatesTags: ['User']
     }),
-    // get profile
-    getProfile: builder.query({
-      query: () => ({
-        url: `${USERS_URL}/profile`,
-        method: 'GET'
-      }),
-      providesTags: ['User']
-    }),
-    // update profile
     updateProfile: builder.mutation({
       query: data => ({
-        url: `${USERS_URL}/profile`,
+        url: `${users_url}/updateProfile`,
+        method: 'PUT',
+        body: data
+      }),
+      invalidatesTags: ['User']
+    }),
+    changePassword: builder.mutation({
+      query: data => ({
+        url: `${users_url}/updatePassword`,
         method: 'PUT',
         body: data
       }),
@@ -49,4 +44,4 @@ export const userApiSlice = apiSlice.injectEndpoints({
     }),
   })
 })
-export const {useRegisterMutation, useLogoutMutation, useLoginMutation, useGetProfileQuery, useUpdateProfileMutation} = userApiSlice
+export const {useRegisterMutation, useLogoutMutation, useLoginMutation, useUpdateProfileMutation, useChangePasswordMutation} = userApiSlice

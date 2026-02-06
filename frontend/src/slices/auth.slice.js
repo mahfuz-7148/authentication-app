@@ -5,7 +5,7 @@ const initialState = {
   ? JSON.parse(localStorage.getItem('userInfo'))
   : null
 }
-export const authSlice = createSlice({
+ export const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
@@ -13,10 +13,11 @@ export const authSlice = createSlice({
       state.userInfo = action.payload
       localStorage.setItem('userInfo', JSON.stringify(action.payload))
     },
-    logout: (state) => {
-     state.userInfo = null
+    logout: state => {
+      state.userInfo = null
       localStorage.removeItem('userInfo')
     }
   }
 })
+
 export const {setCredentials, logout} = authSlice.actions

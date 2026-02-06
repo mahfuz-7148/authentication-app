@@ -1,7 +1,7 @@
 import React from 'react'
-import {Banner} from './banner.jsx';
+import {Banner} from '../components/banner.jsx';
 
-export const HomeScreen = () => {
+export const Home = () => {
   return (
     <div>
       <Banner />
