@@ -3,8 +3,7 @@ import jwt from 'jsonwebtoken';
 import {User} from '../models/user.model.js';
 
 export const protect = asyncHandler(async (req, res, next) => {
-  let token
-  token = req.cookies.jwtToken
+  const token= req.cookies.jwtToken
   if (token) {
     try {
       const decoded = jwt.verify(token, process.env.JWT_SECRET)

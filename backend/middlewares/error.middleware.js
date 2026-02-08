@@ -5,7 +5,7 @@ export const notFound = (req, res, next) => {
 }
 
 export const errorHandler = (err, req, res) => {
- let statusCode = res.statusCode === 2000 ? 500 : res.statusCode
+ let statusCode = res.statusCode === 200 ? 500 : res.statusCode
   let message = err.message
   if (err.name === 'CastError' && err.kind === 'ObjectId') {
     statusCode = 404
