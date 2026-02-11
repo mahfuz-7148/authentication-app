@@ -40,8 +40,7 @@ app.use('/api/users', userRouter)
 app.use(notFound)
 app.use(errorHandler)
 
-// 2. Vercel-e app.listen() dorkar nei, kintu export korte hoy
-export default app;
+
 
 // Local-e chalanor jonno eta thakতে pare
 if (process.env.NODE_ENV !== 'production') {
