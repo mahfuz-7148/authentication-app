@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/api/users/:path*",
-      "destination": "https://authentication-app-l2se.vercel.app/:path*"
+      "destination": "https://authentication-app-4oly.vercel.app/:path*"
     },
     {
       "source": "/(.*)",
