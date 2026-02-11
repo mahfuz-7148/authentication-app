@@ -36,7 +36,7 @@ export const Register = () => {
         navigate('/');
       }
       catch (err) {
-        toast.error(err?.data?.message || err.error)
+        toast.error('register error')
       }
     }
   }

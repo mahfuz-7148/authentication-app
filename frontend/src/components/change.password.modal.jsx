@@ -45,7 +45,7 @@ const ChangePasswordModal = ({ isOpen, onClose }) => {
       // Close modal
       onClose();
     } catch (err) {
-      toast.error(err?.data?.message || err.error || 'Failed to change password');
+      toast.error('Failed to change password');
     }
   };
 
