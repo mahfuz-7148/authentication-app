@@ -8,7 +8,7 @@ import {ToastContainer} from 'react-toastify';
 import {Provider} from 'react-redux';
 import {store} from './utils/store.js';
 import {Login} from './pages/login.jsx';
-import Profile from './pages/update.profile.jsx';
+import Profile from './pages/profile.jsx';
 
  const router = createBrowserRouter(
   createRoutesFromElements(
