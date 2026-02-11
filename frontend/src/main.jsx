@@ -8,7 +8,7 @@ import {ToastContainer} from 'react-toastify';
 import {Provider} from 'react-redux';
 import {store} from './utils/store.js';
 import {Login} from './pages/login.jsx';
-import UpdateProfile from './pages/update.profile.jsx';
+import Profile from './pages/update.profile.jsx';
 
  const router = createBrowserRouter(
   createRoutesFromElements(
@@ -16,7 +16,7 @@ import UpdateProfile from './pages/update.profile.jsx';
       <Route index={true} element={<Home />} />
       <Route path='/register' element={<Register />} />
       <Route path='/login' element={<Login />} />
-      <Route path='/update-profile' element={<UpdateProfile />} />
+      <Route path='/profile' element={<Profile />} />
     </Route>
   )
 )

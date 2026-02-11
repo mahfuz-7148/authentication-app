@@ -1,140 +1,95 @@
-import { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
-import { setCredentials } from '../slices/auth.slice.js';
-import { useUpdateProfileMutation } from '../slices/users.api.slice.js';
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { FormContainer } from '../components/form.container.jsx';
-import { Loader } from '../components/loader.jsx';
 import ChangePasswordModal from '../components/change.password.modal.jsx';
+import EditProfileModal from '../components/edit.profile.modal.jsx';
 
-const UpdateProfile = () => {
-  const [email, setEmail] = useState('');
-  const [name, setName] = useState('');
-  const [currentPassword, setCurrentPassword] = useState('');
+const Profile = () => {
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
+  const [isEditProfileModalOpen, setIsEditProfileModalOpen] = useState(false);
 
-  const dispatch = useDispatch();
   const { userInfo } = useSelector((state) => state.auth);
-  const [updateProfile, { isLoading }] = useUpdateProfileMutation();
-
-  useEffect(() => {
-    if (userInfo) {
-      setName(userInfo.name);
-      setEmail(userInfo.email);
-    }
-  }, [userInfo]);
-
-  const submitHandler = async (e) => {
-    e.preventDefault();
-
-    if (!currentPassword) {
-      toast.error('Please enter your current password to update profile');
-      return;
-    }
-
-    try {
-      const res = await updateProfile({
-        _id: userInfo._id,
-        name,
-        email,
-        currentPassword,
-      }).unwrap();
-
-      dispatch(setCredentials(res));
-      setCurrentPassword('');
-      toast.success('Profile updated successfully');
-    } catch (err) {
-      toast.error(err?.data?.message || err.error || 'Failed to update profile');
-    }
-  };
 
   return (
     <>
       <FormContainer>
         <h1 className='text-3xl font-bold text-center mb-6 text-gray-800'>
-          Update Profile
+          My Profile
         </h1>
 
-        <form onSubmit={submitHandler}>
-          {/* Name Field */}
-          <div className='mb-4'>
-            <label htmlFor='name' className='block text-gray-700 font-semibold mb-2'>
+        {/* Profile Display */}
+        <div className='bg-white rounded-lg shadow-md p-6 mb-6'>
+          {/* Name Display */}
+          <div className='mb-6'>
+            <label className='block text-gray-600 text-sm font-semibold mb-2'>
               Name
             </label>
-            <input
-              type='text'
-              id='name'
-              placeholder='Enter name'
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className='w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent'
-              required
-            />
-          </div>
-
-          {/* Email Field */}
-          <div className='mb-4'>
-            <label htmlFor='email' className='block text-gray-700 font-semibold mb-2'>
-              Email Address
-            </label>
-            <input
-              type='email'
-              id='email'
-              placeholder='Enter email'
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className='w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent'
-              required
-            />
-          </div>
-
-          {/* Current Password Field */}
-          <div className='mb-6 border-t pt-4'>
-            <label
-              htmlFor='currentPassword'
-              className='block text-gray-700 font-semibold mb-2'
-            >
-              Current Password <span className='text-red-500'>*</span>
-            </label>
-            <input
-              type='password'
-              id='currentPassword'
-              placeholder='Enter current password to confirm changes'
-              value={currentPassword}
-              onChange={(e) => setCurrentPassword(e.target.value)}
-              className='w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent'
-              required
-            />
-            <p className='text-sm text-gray-500 mt-1'>
-              Required to verify your identity
+            <p className='text-gray-800 text-lg font-medium'>
+              {userInfo?.name || 'N/A'}
             </p>
           </div>
 
-          {/* Update Profile Button */}
-          <button
-            disabled={isLoading}
-            type='submit'
-            className='w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed mb-3'
-          >
-            {isLoading ? 'Updating...' : 'Update Profile'}
-          </button>
+          {/* Email Display */}
+          <div className='mb-6'>
+            <label className='block text-gray-600 text-sm font-semibold mb-2'>
+              Email Address
+            </label>
+            <p className='text-gray-800 text-lg font-medium'>
+              {userInfo?.email || 'N/A'}
+            </p>
+          </div>
 
-          {/* Change Password Button */}
-          <button
-            type='button'
-            onClick={() => setIsPasswordModalOpen(true)}
-            className='w-full bg-gray-600 text-white py-3 rounded-lg font-semibold hover:bg-gray-700 transition-colors'
-          >
-            Change Password
-          </button>
+          {/* Divider */}
+          <div className='border-t border-gray-200 my-6'></div>
 
-          {isLoading && (
-            <div className='mt-4 flex justify-center'>
-              <Loader />
-            </div>
-          )}
-        </form>
+          {/* Action Buttons */}
+          <div className='space-y-3'>
+            {/* Edit Profile Button */}
+            <button
+              type='button'
+              onClick={() => setIsEditProfileModalOpen(true)}
+              className='w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors flex items-center justify-center gap-2'
+            >
+              <svg
+                xmlns='http://www.w3.org/2000/svg'
+                className='h-5 w-5'
+                viewBox='0 0 20 20'
+                fill='currentColor'
+              >
+                <path d='M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z' />
+              </svg>
+              Edit Profile
+            </button>
+
+            {/* Change Password Button */}
+            <button
+              type='button'
+              onClick={() => setIsPasswordModalOpen(true)}
+              className='w-full bg-gray-600 text-white py-3 rounded-lg font-semibold hover:bg-gray-700 transition-colors flex items-center justify-center gap-2'
+            >
+              <svg
+                xmlns='http://www.w3.org/2000/svg'
+                className='h-5 w-5'
+                viewBox='0 0 20 20'
+                fill='currentColor'
+              >
+                <path
+                  fillRule='evenodd'
+                  d='M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z'
+                  clipRule='evenodd'
+                />
+              </svg>
+              Change Password
+            </button>
+          </div>
+        </div>
       </FormContainer>
+
+      {/* Edit Profile Modal */}
+      <EditProfileModal
+        isOpen={isEditProfileModalOpen}
+        onClose={() => setIsEditProfileModalOpen(false)}
+      />
 
       {/* Password Change Modal */}
       <ChangePasswordModal
@@ -145,4 +100,4 @@ const UpdateProfile = () => {
   );
 };
 
-export default UpdateProfile;
+export default Profile;

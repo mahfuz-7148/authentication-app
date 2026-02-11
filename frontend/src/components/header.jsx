@@ -64,7 +64,7 @@ export const Header = () => {
                     />
                     <div className="absolute right-0 mt-2 w-48 bg-gray-800 rounded-lg shadow-xl z-20 py-2">
                       <Link
-                        to="/update-profile"
+                        to="/profile"
                         onClick={() => setDropdownOpen(false)}
                         className="block px-4 py-2 hover:bg-gray-700 transition-colors"
                       >
@@ -115,7 +115,7 @@ export const Header = () => {
             {userInfo ? (
               <>
                 <Link
-                  to="/update-profile"
+                  to="/profile"
                   onClick={() => setIsOpen(false)}
                   className="block px-4 py-2 rounded-lg hover:bg-gray-800 transition-colors"
                 >
