@@ -28,6 +28,8 @@ app.use('/api/users', userRouter)
 app.use(notFound)
 app.use(errorHandler)
 
-app.listen(port, () => {
-  console.log(`server on ${port}`)
-})
+if (process.env.NODE_ENV !== 'production') {
+  app.listen(port, () => {
+    console.log(`server on ${port}`)
+  })
+}
