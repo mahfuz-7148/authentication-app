@@ -11,8 +11,8 @@ connectDB()
 
 app.use(cors({
   origin: process.env.NODE_ENV === 'production'
-    ? ''
-    : 'http://localhost:5173',
+    ? 'https://authentication-app-75dg.vercel.app'
+    : '',
   credentials: true
 }))
 app.use(express.json())
