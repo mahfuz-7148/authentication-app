@@ -7,9 +7,7 @@ import { errorHandler, notFound } from './middlewares/error.middleware.js';
 
 const app = express()
 
-// Database connection call
-connectDB()
-
+// CORS configuration
 app.use(cors({
   origin: process.env.NODE_ENV === 'production'
     ? 'https://authentication-app-75dg.vercel.app'
@@ -21,24 +19,26 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser())
 
+// Route call korar somoy DB connection ensure kora
+app.use('/api/users', async (req, res, next) => {
+  await connectDB();
+  next();
+}, userRouter)
+
 app.get('/', (req, res) => {
   res.send('server ready')
 })
 
-app.use('/api/users', userRouter)
-
 app.use(notFound)
 app.use(errorHandler)
 
-// --- Vercel Optimization Starts ---
-
-// 1. Vercel-er runtime-er jonno app export kora mandatory
+// VERCEL FIX: app instance export kora
 export default app;
 
-// 2. Shudhu local-e chalanor jonno listen check (Vercel-e eta ignore hobe)
+// Local-e chalanor jonno conditional listen
 if (process.env.NODE_ENV !== 'production') {
   const port = process.env.PORT || 3000
   app.listen(port, () => {
-    console.log(`Server running on port ${port}`)
+    console.log(`Server on ${port}`)
   })
 }
